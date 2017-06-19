@@ -1,36 +1,42 @@
 package com.suavepirate.bottomnavigationpuppies.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.suavepirate.bottomnavigationpuppies.R;
+import com.suavepirate.bottomnavigationpuppies.adapters.PuppyAdapter;
+import com.suavepirate.bottomnavigationpuppies.models.Puppy;
+import com.suavepirate.bottomnavigationpuppies.models.PuppyFactory;
+import com.suavepirate.bottomnavigationpuppies.models.PuppyListType;
+
+import java.util.ArrayList;
 
 /**
  * Created by adunn on 6/18/17.
  */
 
 public class PuppyListFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    private static final String ARG_SECTION_NUMBER = "section_number";
 
+    private static final String ARG_LIST_TYPE = "LIST_TYPE";
+    private PuppyFactory puppyFactory;
     public PuppyListFragment() {
+        puppyFactory = new PuppyFactory(this.getActivity());
     }
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static PuppyListFragment newInstance(int sectionNumber) {
+    public static PuppyListFragment newInstance(PuppyListType listType) {
         PuppyListFragment fragment = new PuppyListFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putSerializable(ARG_LIST_TYPE, listType.toString());
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,8 +45,23 @@ public class PuppyListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+        RecyclerView recyclerView = (RecyclerView)rootView.findViewById(R.id.puppyRecyclerView);
+        PuppyListType listType = (PuppyListType)savedInstanceState.getSerializable(ARG_LIST_TYPE);
+        ArrayList<Puppy> puppies = new ArrayList<Puppy>();
+        switch(listType){
+            case All: puppies = puppyFactory.getPuppies();
+                break;
+            case Active: puppies = puppyFactory.getActivePuppies();
+                break;
+            case LeashTrained: puppies = puppyFactory.getLeashTrainedPuppies();
+                break;
+            case Big: puppies = puppyFactory.getBigPuppies();
+                break;
+            case Small: puppies = puppyFactory.getSmallPuppies();
+                break;
+        }
+
+        recyclerView.setAdapter(new PuppyAdapter(puppies));
         return rootView;
     }
 }

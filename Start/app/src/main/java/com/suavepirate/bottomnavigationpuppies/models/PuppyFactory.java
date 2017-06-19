@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,18 +23,60 @@ public class PuppyFactory {
         this.context = context;
     }
 
-    public ArrayList<Puppy> GetPuppies(){
+    public ArrayList<Puppy> getPuppies(){
         ArrayList<Puppy> result =  new ArrayList<Puppy>();
-        result.add(new Puppy("Harper", getDescription(0), getDrawableByName("puppy1"), false));
-        result.add(new Puppy("Lucy", getDescription(1), getDrawableByName("puppy2"), false));
-        result.add(new Puppy("Adrian", getDescription(2), getDrawableByName("puppy3"), false));
-        result.add(new Puppy("Bella", getDescription(3), getDrawableByName("puppy4"), false));
-        result.add(new Puppy("Tildy", getDescription(4), getDrawableByName("puppy5"), false));
-        result.add(new Puppy("Apollo", getDescription(5), getDrawableByName("puppy6"), false));
-        result.add(new Puppy("Roxie", getDescription(6), getDrawableByName("puppy7"), false));
-        result.add(new Puppy("Junior", getDescription(7), getDrawableByName("puppy8"), false));
-        result.add(new Puppy("Dede", getDescription(8), getDrawableByName("puppy9"), false));
+        result.add(new Puppy("Harper", getDescription(0), getDrawableByName("puppy1"), false, true, true));
+        result.add(new Puppy("Lucy", getDescription(1), getDrawableByName("puppy2"), false, true, false));
+        result.add(new Puppy("Adrian", getDescription(2), getDrawableByName("puppy3"), false, true, false));
+        result.add(new Puppy("Bella", getDescription(3), getDrawableByName("puppy4"), true, false, true));
+        result.add(new Puppy("Tildy", getDescription(4), getDrawableByName("puppy5"), true, false, false));
+        result.add(new Puppy("Apollo", getDescription(5), getDrawableByName("puppy6"), true, true, false));
+        result.add(new Puppy("Roxie", getDescription(6), getDrawableByName("puppy7"), false, false, false));
+        result.add(new Puppy("Junior", getDescription(7), getDrawableByName("puppy8"), true, false, true));
+        result.add(new Puppy("Dede", getDescription(8), getDrawableByName("puppy9"), false, true, false));
         return result;
+    }
+
+    public ArrayList<Puppy> getActivePuppies(){
+        ArrayList<Puppy> allPuppies = getPuppies();
+        ArrayList<Puppy> selectedPuppies = new ArrayList<Puppy>();
+        for (Puppy puppy : allPuppies) {
+            if(puppy.isActive)
+                selectedPuppies.add(puppy);
+        }
+        return selectedPuppies;
+    }
+
+
+    public ArrayList<Puppy> getBigPuppies(){
+        ArrayList<Puppy> allPuppies = getPuppies();
+        ArrayList<Puppy> selectedPuppies = new ArrayList<Puppy>();
+        for (Puppy puppy : allPuppies) {
+            if(puppy.isFullGrown)
+                selectedPuppies.add(puppy);
+        }
+        return selectedPuppies;
+    }
+
+
+    public ArrayList<Puppy> getSmallPuppies(){
+        ArrayList<Puppy> allPuppies = getPuppies();
+        ArrayList<Puppy> selectedPuppies = new ArrayList<Puppy>();
+        for (Puppy puppy : allPuppies) {
+            if(!puppy.isFullGrown)
+                selectedPuppies.add(puppy);
+        }
+        return selectedPuppies;
+    }
+
+    public ArrayList<Puppy> getLeashTrainedPuppies(){
+        ArrayList<Puppy> allPuppies = getPuppies();
+        ArrayList<Puppy> selectedPuppies = new ArrayList<Puppy>();
+        for (Puppy puppy : allPuppies) {
+            if(puppy.isLeashTrained)
+                selectedPuppies.add(puppy);
+        }
+        return selectedPuppies;
     }
 
     private String getDescription(int position) {
