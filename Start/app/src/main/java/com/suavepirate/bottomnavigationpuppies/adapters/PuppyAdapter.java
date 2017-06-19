@@ -26,11 +26,11 @@ public class PuppyAdapter extends Adapter<PuppyHolder> {
 
     @Override
     public void onBindViewHolder(PuppyHolder holder, int position) {
-        holder.
+        holder.updateWithPuppy(puppies.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return puppies.toArray().length;
     }
 }
