@@ -4,6 +4,7 @@ package com.suavepirate.bottomnavigationpuppies.adapters;
  * Created by adunn on 6/18/17.
  */
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,25 +19,27 @@ import com.suavepirate.bottomnavigationpuppies.models.PuppyListType;
  */
 public class PageAdapter extends FragmentPagerAdapter {
 
-    public PageAdapter(FragmentManager fm) {
+    private  Context context;
+    public PageAdapter(FragmentManager fm, Context context) {
         super(fm);
+        this.context = context;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return PuppyListFragment.newInstance(PuppyListType.All);
+                return PuppyListFragment.newInstance(PuppyListType.All, context);
             case 1:
-                return PuppyListFragment.newInstance(PuppyListType.Big);
+                return PuppyListFragment.newInstance(PuppyListType.Big, context);
             case 2:
-                return PuppyListFragment.newInstance(PuppyListType.Small);
+                return PuppyListFragment.newInstance(PuppyListType.Small, context);
             case 3:
-                return PuppyListFragment.newInstance(PuppyListType.LeashTrained);
+                return PuppyListFragment.newInstance(PuppyListType.LeashTrained, context);
             case 4:
-                return PuppyListFragment.newInstance(PuppyListType.Active);
+                return PuppyListFragment.newInstance(PuppyListType.Active, context);
         }
-        return PuppyListFragment.newInstance(PuppyListType.All);
+        return PuppyListFragment.newInstance(PuppyListType.All, context);
     }
 
     @Override
@@ -55,7 +58,7 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 2:
                 return "Small";
             case 3:
-                return "Leash Trained";
+                return "Trained";
             case 4:
                 return "Active";
         }

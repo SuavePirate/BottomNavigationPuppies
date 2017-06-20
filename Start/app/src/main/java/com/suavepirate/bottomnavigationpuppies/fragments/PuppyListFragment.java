@@ -3,6 +3,7 @@ package com.suavepirate.bottomnavigationpuppies.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,18 +26,20 @@ public class PuppyListFragment extends Fragment {
 
     private static final String ARG_LIST_TYPE = "LIST_TYPE";
     private PuppyFactory puppyFactory;
-    public PuppyListFragment() {
-        puppyFactory = new PuppyFactory(this.getActivity());
+    private Context context;
+    public PuppyListFragment(Context context) {
+        puppyFactory = new PuppyFactory(context);
+        this.context = context;
     }
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static PuppyListFragment newInstance(PuppyListType listType) {
-        PuppyListFragment fragment = new PuppyListFragment();
+    public static PuppyListFragment newInstance(PuppyListType listType, Context context) {
+        PuppyListFragment fragment = new PuppyListFragment(context);
         Bundle args = new Bundle();
-        args.putSerializable(ARG_LIST_TYPE, listType.toString());
+        args.putSerializable(ARG_LIST_TYPE, listType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,7 +49,7 @@ public class PuppyListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         RecyclerView recyclerView = (RecyclerView)rootView.findViewById(R.id.puppyRecyclerView);
-        PuppyListType listType = (PuppyListType)savedInstanceState.getSerializable(ARG_LIST_TYPE);
+        PuppyListType listType = (PuppyListType)getArguments().getSerializable(ARG_LIST_TYPE);
         ArrayList<Puppy> puppies = new ArrayList<Puppy>();
         switch(listType){
             case All: puppies = puppyFactory.getPuppies();
@@ -62,6 +65,7 @@ public class PuppyListFragment extends Fragment {
         }
 
         recyclerView.setAdapter(new PuppyAdapter(puppies));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.context));
         return rootView;
     }
 }

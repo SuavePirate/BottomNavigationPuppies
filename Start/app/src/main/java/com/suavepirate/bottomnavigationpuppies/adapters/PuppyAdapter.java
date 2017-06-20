@@ -2,9 +2,13 @@ package com.suavepirate.bottomnavigationpuppies.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
 import java.util.ArrayList;
 
+import com.suavepirate.bottomnavigationpuppies.R;
 import com.suavepirate.bottomnavigationpuppies.models.Puppy;
 import com.suavepirate.bottomnavigationpuppies.models.PuppyHolder;
 
@@ -21,7 +25,8 @@ public class PuppyAdapter extends Adapter<PuppyHolder> {
 
     @Override
     public PuppyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new PuppyHolder(parent);
+        LinearLayout puppyItem = (LinearLayout)LayoutInflater.from(parent.getContext()).inflate(R.layout.puppy_item, parent, false);
+        return new PuppyHolder(puppyItem);
     }
 
     @Override
