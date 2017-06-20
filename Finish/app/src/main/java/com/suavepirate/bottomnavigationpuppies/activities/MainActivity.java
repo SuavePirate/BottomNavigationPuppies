@@ -1,9 +1,12 @@
 package com.suavepirate.bottomnavigationpuppies.activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TabLayout.ViewPagerOnTabSelectedListener;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -21,7 +24,7 @@ import com.suavepirate.bottomnavigationpuppies.R;
 import com.suavepirate.bottomnavigationpuppies.adapters.PageAdapter;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private BottomNavigationView mBottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +57,10 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(this);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-
-        // set icons
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_white_24dp);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_dog_white_24dp);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_small_dog_white_24dp);
-        tabLayout.getTabAt(3).setIcon(R.drawable.ic_trained_white_24dp);
-        tabLayout.getTabAt(4).setIcon(R.drawable.ic_active_white_24dp);
+        mBottomBar = (BottomNavigationView)findViewById(R.id.bottombar);
+        mBottomBar.setOnNavigationItemSelectedListener(this);
 
     }
 
@@ -90,5 +88,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // Handles when an item is selected to update the viewPager
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        switch(item.getItemId()){
+            case R.id.all_puppies: mViewPager.setCurrentItem(0);
+                break;
+            case R.id.big_puppies: mViewPager.setCurrentItem(1);
+                break;
+            case R.id.small_puppies: mViewPager.setCurrentItem(2);
+                break;
+            case R.id.trained_puppies: mViewPager.setCurrentItem(3);
+                break;
+            case R.id.active_puppies: mViewPager.setCurrentItem(4);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        switch(position){
+            case 0: mBottomBar.setSelectedItemId(R.id.all_puppies);
+                break;
+            case 1: mBottomBar.setSelectedItemId(R.id.big_puppies);
+                break;
+            case 2: mBottomBar.setSelectedItemId(R.id.small_puppies);
+                break;
+            case 3: mBottomBar.setSelectedItemId(R.id.trained_puppies);
+                break;
+            case 4: mBottomBar.setSelectedItemId(R.id.active_puppies);
+                break;
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }

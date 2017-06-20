@@ -25,10 +25,10 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <!--<android.support.design.widget.TabLayout-->
+            <!--android:id="@+id/tabs"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
 
     </android.support.design.widget.AppBarLayout>
 
@@ -38,5 +38,12 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottombar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|fill_horizontal|start"
+        app:menu="@menu/bottom_bar_menu"
+        android:background="@android:color/white"
+        app:elevation="8dp"/>
 </android.support.design.widget.CoordinatorLayout>
