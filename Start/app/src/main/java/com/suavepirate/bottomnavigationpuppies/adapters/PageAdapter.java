@@ -50,7 +50,9 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position) {
+        // return empty to show no title. Delete this line to show tab titles
+        return null;
+       /* switch (position) {
             case 0:
                 return "All";
             case 1:
@@ -62,6 +64,7 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 4:
                 return "Active";
         }
-        return null;
+        return null;*/
     }
+
 }

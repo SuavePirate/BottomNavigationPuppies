@@ -25,7 +25,7 @@ public class PuppyFactory {
 
     public ArrayList<Puppy> getPuppies(){
         ArrayList<Puppy> result =  new ArrayList<Puppy>();
-        result.add(new Puppy("Harper", getDescription(0), getDrawableByName("puppy1"), false, true, true));
+        result.add(new Puppy("Harper", getDescription(0), getDrawableByName("puppy1"), false, false, false));
         result.add(new Puppy("Lucy", getDescription(1), getDrawableByName("puppy2"), false, true, false));
         result.add(new Puppy("Adrian", getDescription(2), getDrawableByName("puppy3"), false, true, false));
         result.add(new Puppy("Bella", getDescription(3), getDrawableByName("puppy4"), true, false, true));
