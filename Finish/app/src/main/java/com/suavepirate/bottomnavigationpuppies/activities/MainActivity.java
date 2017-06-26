@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout.ViewPagerOnTabSelectedListener;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.suavepirate.bottomnavigationpuppies.R;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    private FrameLayout mContainer;
     private BottomNavigationView mBottomBar;
 
     @Override
@@ -55,10 +57,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         mSectionsPagerAdapter = new PageAdapter(getSupportFragmentManager(), this);
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.addOnPageChangeListener(this);
-
+        mContainer = (FrameLayout) findViewById(R.id.container);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.container, mSectionsPagerAdapter.getItem(0), "CURRENT_PAGE");
+        ft.commit();
         mBottomBar = (BottomNavigationView)findViewById(R.id.bottombar);
         mBottomBar.setOnNavigationItemSelectedListener(this);
 
@@ -91,19 +93,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     // Handles when an item is selected to update the viewPager
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
 
         switch(item.getItemId()){
-            case R.id.all_puppies: mViewPager.setCurrentItem(0);
+            case R.id.all_puppies: ft.replace(R.id.container, mSectionsPagerAdapter.getItem(0)); // mViewPager.setCurrentItem(0);
                 break;
-            case R.id.big_puppies: mViewPager.setCurrentItem(1);
+            case R.id.big_puppies: ft.replace(R.id.container, mSectionsPagerAdapter.getItem(1)); //mViewPager.setCurrentItem(1);
                 break;
-            case R.id.small_puppies: mViewPager.setCurrentItem(2);
+            case R.id.small_puppies: ft.replace(R.id.container, mSectionsPagerAdapter.getItem(2)); //mViewPager.setCurrentItem(2);
                 break;
-            case R.id.trained_puppies: mViewPager.setCurrentItem(3);
+            case R.id.trained_puppies: ft.replace(R.id.container, mSectionsPagerAdapter.getItem(3)); //mViewPager.setCurrentItem(3);
                 break;
-            case R.id.active_puppies: mViewPager.setCurrentItem(4);
+            case R.id.active_puppies: ft.replace(R.id.container, mSectionsPagerAdapter.getItem(4)); //mViewPager.setCurrentItem(4);
                 break;
         }
+        ft.commit();
         return true;
     }
 
